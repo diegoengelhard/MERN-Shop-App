@@ -33,7 +33,7 @@ export const Wrapper = styled.div`
   height: 100%;
   display: flex;
   transition: all 1.5s ease;
-  transform: translateX(${(props) => props.slideIndex * -100}vw);
+  transform: translateX(${(props) => props.$slideIndex * -100}vw);
 `;
 
 export const Slide = styled.div`
@@ -41,7 +41,7 @@ export const Slide = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
-  background-color: #${(props) => props.bg};
+  background-color: #${(props) => props.$bg};
 `;
 
 export const ImgContainer = styled.div`

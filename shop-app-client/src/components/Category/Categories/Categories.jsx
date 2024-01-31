@@ -4,18 +4,21 @@ import React from 'react';
 import CategoryItem from '../CategoryItem/CategoryItem';
 
 // Import styles
-import { Container } from './Categories.styles';
+import { Title, Container } from './Categories.styles';
 
 // Import temp category data
 import { categories } from '../../../data';
 
 const Categories = () => {
     return (
-        <Container>
-            {categories.map((item) => (
-                <CategoryItem item={item} key={item.id} />
-            ))}
-        </Container>
+        <>
+            <Title>CATEGORIES</Title>
+            <Container>
+                {categories.map((item) => (
+                    <CategoryItem item={item} key={item.id} />
+                ))}
+            </Container>
+        </>
     )
 }
 

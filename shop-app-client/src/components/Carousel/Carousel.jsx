@@ -39,9 +39,9 @@ const Carousel = () => {
                 <Arrow direction="left" onClick={() => handleClick("left")}>
                     <ArrowLeftOutlined />
                 </Arrow>
-                <Wrapper slideIndex={slideIndex}>
+                <Wrapper $slideIndex={slideIndex}>
                     {sliderItems.map((item) => (
-                        <Slide bg={item.bg} key={item.id}>
+                        <Slide $bg={item.bg} key={item.id}>
                             <ImgContainer>
                                 <Image src={item.img} />
                             </ImgContainer>
