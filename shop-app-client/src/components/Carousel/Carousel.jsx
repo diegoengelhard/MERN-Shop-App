@@ -18,7 +18,7 @@ import {
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 
 // Import temp carousel data
-import { sliderItems } from './data';
+import { sliderItems } from '../../data';
 
 const Carousel = () => {
     // Set carousel index state
