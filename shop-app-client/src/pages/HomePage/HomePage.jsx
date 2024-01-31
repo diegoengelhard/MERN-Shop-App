@@ -4,6 +4,7 @@ import React from 'react';
 import Carousel from '../../components/Carousel/Carousel';
 import Categories from '../../components/Category/Categories/Categories';
 import Products from '../../components/Product/Products/Products';
+import Newsletter from '../../components/Newsletter/Newsletter';
 
 const HomePage = () => {
     return (
@@ -14,6 +15,8 @@ const HomePage = () => {
             <Categories />
             {/* PRODUCTS */}
             <Products />
+            {/* NEWSLETTER */}
+            <Newsletter />
         </>
     )
 }
