@@ -1,18 +1,37 @@
 import { useState } from 'react';
 
+// Import React Router DOM
+import { Routes, Route } from 'react-router-dom';
+
 // Import pages
 import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
+import ProductsPage from './pages/ProductsPage/ProductsPage';
+import SingleProduct from './pages/SingleProduct/SingleProduct';
 
 function App() {
 
   return (
     <>
       {/* HEADER */}
-      <Navbar />
-      
+      <header>
+        <Navbar />
+      </header>
+
       {/* MAIN */}
-      <HomePage />
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<SingleProduct />} />
+        </Routes>
+      </main>
+
+      {/* FOOTER */}
+      <footer>
+        <Footer />
+      </footer>
     </>
   )
 }
