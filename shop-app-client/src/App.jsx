@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
+import AuthPage from './pages/AuthPage/AuthPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import SingleProduct from './pages/SingleProduct/SingleProduct';
 
@@ -23,6 +24,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/auth/*" element={<AuthPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<SingleProduct />} />
         </Routes>
