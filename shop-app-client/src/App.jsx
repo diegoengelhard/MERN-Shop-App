@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage/HomePage';
 import AuthPage from './pages/AuthPage/AuthPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import SingleProduct from './pages/SingleProduct/SingleProduct';
+import CartPage from './pages/CartPage/CartPage';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/auth/*" element={<AuthPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<SingleProduct />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </main>
 
