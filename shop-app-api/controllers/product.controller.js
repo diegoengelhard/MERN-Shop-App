@@ -6,9 +6,26 @@ const controller = {};
 // Get all products
 controller.getAll = async (req, res) => {
     try {
-        // Obtain all products
-        const products = await Product.find();
+        // Query products by most recent
+        const queryNewProducts = req.query.new;
 
+        // Query products by category
+        const queryCategory = req.query.category;
+
+        // Obtain products
+        let products;
+
+        // If queryNewProducts exists, filter products by the 5 most recent products
+        if (queryNewProducts) {
+            products = await Product.find().sort({ createdAt: -1 }).limit(5);
+        } else if (queryCategory) {
+            // If queryCategory exists, filter products by category
+            products = await Product.find({ categories: { $in: [queryCategory] } });
+        } else {
+            // If no query exists, obtain all products
+            products = await Product.find();
+        }
+        
         // Send response
         res.status(200).json(products);
     } catch (error) {
