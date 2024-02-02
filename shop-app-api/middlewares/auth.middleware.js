@@ -37,4 +37,20 @@ authMiddleware.authenticate = async (req, res, next) => {
     }
 }
 
+// Verifies if user is admin
+authMiddleware.authorize = async (req, res, next) => {
+    try {
+        // Obtain user from request object
+        const user = req.user;
+
+        // If user is not admin, send error response
+        if (!user.isAdmin) return res.status(403).send({ message: "Access denied, not an admin" });
+
+        // Move to next middleware
+        next();
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+}
+
 module.exports = authMiddleware;
