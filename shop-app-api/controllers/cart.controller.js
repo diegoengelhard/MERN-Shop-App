@@ -42,7 +42,7 @@ controller.getByUserId = async (req, res) => {
         // Obtain user id
         const { userId } = req.params;
 
-        // Obtain cart
+        // Obtain cart by user id
         const cart = await Cart.findOne({ userId: userId });
         if (!cart) {
             return res.status(404).json({ message: "Cart not found" });
