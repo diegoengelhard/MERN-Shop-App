@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 // Import styles
 import {
     Container,
@@ -19,6 +21,9 @@ import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 
 const Navbar = () => {
+    // Set navigate
+    const navigate = useNavigate();
+
     return (
         <>
             <Container>
@@ -31,7 +36,7 @@ const Navbar = () => {
                         </SearchContainer>
                     </Left>
                     <Center>
-                        <Logo>SHOP APP</Logo>
+                        <Logo onClick={() => navigate('/')}>SHOP APP</Logo>
                     </Center>
                     <Right>
                         <MenuItem>REGISTER</MenuItem>

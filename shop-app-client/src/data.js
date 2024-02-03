@@ -1,10 +1,10 @@
 export const sliderItems = [
     {
         id: 1,
-        img: "https://i.ibb.co/XsdmR2c/1.png",
+        img: "https://static.zara.net/photos///2024/V/0/2/p/6518/518/407/2/w/399/6518518407_1_1_1.jpg?ts=1703173625371",
         title: "SUMMER SALE",
         desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-        bg: "f5fafd",
+        bg: "F1F2F7",
     },
     {
         id: 2,
@@ -26,17 +26,20 @@ export const categories = [
     {
         id: 1,
         img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        title: "SHIRT STYLE!",
+        title: "WOMEN",
+        category: "woman"
     },
     {
         id: 2,
-        img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        title: "LOUNGEWEAR LOVE",
+        img: "https://media.fashionnetwork.com/cdn-cgi/image/fit=contain,width=1000,height=1000/m/98ec/b191/ff81/e671/d8d5/8127/589d/13d3/0792/5a36/5a36.jpg",
+        title: "UNISEX",
+        category: "unisex"
     },
     {
         id: 3,
-        img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-        title: "LIGHT JACKETS",
+        img: "https://static.zara.net/photos///2024/V/0/2/p/7484/578/800/2/w/579/7484578800_2_5_1.jpg?ts=1704371473383",
+        title: "MEN",
+        category: "men"
     },
 ];
 

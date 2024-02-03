@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Import styles
 import {
@@ -24,6 +25,9 @@ const Carousel = () => {
     // Set carousel index state
     const [slideIndex, setSlideIndex] = useState(0);
 
+    // Set navigate
+    const navigate = useNavigate();
+
     // Handle click on arrow
     const handleClick = (direction) => {
         // If direction is left, decrease index by 1, else increase by 1
@@ -48,7 +52,7 @@ const Carousel = () => {
                             <InfoContainer>
                                 <Title>{item.title}</Title>
                                 <Desc>{item.desc}</Desc>
-                                <Button>SHOW NOW</Button>
+                                <Button onClick={() => navigate('/products')}>SHOW NOW</Button>
                             </InfoContainer>
                         </Slide>
                     ))}

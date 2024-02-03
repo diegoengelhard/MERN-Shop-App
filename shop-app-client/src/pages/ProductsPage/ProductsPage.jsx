@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useLocation } from "react-router";
 
 // Import components
 import Products from '../../components/Product/Products/Products'
@@ -15,9 +16,29 @@ import {
 } from './ProductsPage.styles'
 
 const ProductsPage = () => {
+    // Get the current location from the browser route
+    const location = useLocation()
+
+    // Get the category from the current location
+    const category = location.pathname.split('/')[2]
+
+    // Set filter state
+    const [filters, setFilters] = useState({})
+
+    // Set sort state
+    const [sort, setSort] = useState('newest')
+
+    // Filter handler
+    const handleFilters = (e) => {
+        const value = e.target.value
+        setFilters({
+            ...filters,
+            [e.target.name]: value
+        })
+    }
     return (
         <>
-            <Title>Dresses</Title>
+            <Title>{category}</Title>
             <FilterContainer>
                 <Filter>
                     <FilterText>Filter Products:</FilterText>
@@ -25,12 +46,12 @@ const ProductsPage = () => {
                         <Option disabled value='colot'>
                             Color
                         </Option>
-                        <Option>White</Option>
-                        <Option>Black</Option>
-                        <Option>Red</Option>
-                        <Option>Blue</Option>
-                        <Option>Yellow</Option>
-                        <Option>Green</Option>
+                        <Option>white</Option>
+                        <Option>black</Option>
+                        <Option>red</Option>
+                        <Option>blue</Option>
+                        <Option>brown</Option>
+                        <Option>green</Option>
                     </Select>
                     <Select>
                         <Option disabled selected>
@@ -52,7 +73,7 @@ const ProductsPage = () => {
                     </Select>
                 </Filter>
             </FilterContainer>
-            <Products />
+            <Products category={category} filters={filters} sort={sort} />
         </>
     )
 }
