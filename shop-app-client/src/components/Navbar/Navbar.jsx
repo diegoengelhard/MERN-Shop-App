@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // Import styles
 import {
@@ -24,6 +24,9 @@ const Navbar = () => {
     // Set navigate
     const navigate = useNavigate();
 
+    // Obtain cart quantity from the redux store
+    const cartQuantity = useSelector(state => state.cart.quantity);
+
     return (
         <>
             <Container>
@@ -42,7 +45,7 @@ const Navbar = () => {
                         <MenuItem>REGISTER</MenuItem>
                         <MenuItem>SIGN IN</MenuItem>
                         <MenuItem>
-                            <Badge badgeContent={4} color="primary">
+                            <Badge badgeContent={cartQuantity} color="primary">
                                 <ShoppingCartOutlined />
                             </Badge>
                         </MenuItem>

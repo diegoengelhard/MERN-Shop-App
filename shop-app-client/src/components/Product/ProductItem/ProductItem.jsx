@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Impoert styles
 import { Container, Info, Circle, Image, Icon } from './ProductItem.styles'
@@ -11,6 +12,9 @@ import {
 } from "@material-ui/icons";
 
 const ProductItem = ({ productItem }) => {
+    // Set navigate
+    const navigate = useNavigate();
+    
     return (
         <Container>
             <Circle />
@@ -20,7 +24,7 @@ const ProductItem = ({ productItem }) => {
                     <ShoppingCartOutlined />
                 </Icon>
                 <Icon>
-                    <SearchOutlined />
+                    <SearchOutlined onClick={() => navigate(`/products/item/${productItem._id}`)} />
                 </Icon>
                 <Icon>
                     <FavoriteBorderOutlined />

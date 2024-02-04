@@ -28,7 +28,7 @@ function App() {
           <Route path="/auth/*" element={<AuthPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:category" element={<ProductsPage />} />
-          <Route path="/products/:id" element={<SingleProduct />} />
+          <Route path="/products/item/:id" element={<SingleProduct />} />
           <Route path="/cart" element={<CartPage />} />
         </Routes>
       </main>
