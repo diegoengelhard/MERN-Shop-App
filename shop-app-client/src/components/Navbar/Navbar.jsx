@@ -46,7 +46,7 @@ const Navbar = () => {
                         <MenuItem>SIGN IN</MenuItem>
                         <MenuItem>
                             <Badge badgeContent={cartQuantity} color="primary">
-                                <ShoppingCartOutlined />
+                                <ShoppingCartOutlined onClick={() => navigate('/cart')} />
                             </Badge>
                         </MenuItem>
                     </Right>

@@ -1,4 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+// Import redux actions
+import service from '../../redux/service/service.js'
+
+// Import StripeCheckout
+import StripeCheckout from 'react-stripe-checkout';
 
 // Import styles
 import {
@@ -35,14 +43,43 @@ import {
 // Import MUI icons
 import { Add, Remove } from "@material-ui/icons";
 
+// Import Stripe Publishable Key
+const KEY = import.meta.env.STRIPE_PUBLISHABLE_KEY;
+
 const CartPage = () => {
+    // Set cart from redux store
+    const cart = useSelector(state => state.cart);
+
+    // Stripe payment token state
+    const [stripeToken, setStripeToken] = React.useState(null);
+
+    // Set navigate
+    const navigate = useNavigate();
+
+    // Set stripe token for payment
+    const onToken = (token) => {
+        setStripeToken(token);
+    }
+
+    // useEffect to navigate to success page after payment
+    useEffect(() => {
+        const paymentRequest = async () => {
+            try {
+                // Payment request to the server
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }, []);
+
     return (
         <>
             <Container>
                 <Wrapper>
                     <Title>YOUR BAG</Title>
                     <Top>
-                        <TopButton>CONTINUE SHOPPING</TopButton>
+                        <TopButton onClick={() => navigate('/products')} >CONTINUE SHOPPING</TopButton>
                         <TopTexts>
                             <TopText>Shopping Bag(2)</TopText>
                             <TopText>Your Wishlist (0)</TopText>
@@ -50,64 +87,44 @@ const CartPage = () => {
                         <TopButton type="filled">CHECKOUT NOW</TopButton>
                     </Top>
                     <Bottom>
+                        {/* CART ADDED PRODUCTS */}
                         <Info>
-                            <Product>
-                                <ProductDetail>
-                                    <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                                    <Details>
-                                        <ProductName>
-                                            <b>Product:</b> JESSIE THUNDER SHOES
-                                        </ProductName>
-                                        <ProductId>
-                                            <b>ID:</b> 93813718293
-                                        </ProductId>
-                                        <ProductColor color="black" />
-                                        <ProductSize>
-                                            <b>Size:</b> 37.5
-                                        </ProductSize>
-                                    </Details>
-                                </ProductDetail>
-                                <PriceDetail>
-                                    <ProductAmountContainer>
-                                        <Add />
-                                        <ProductAmount>2</ProductAmount>
-                                        <Remove />
-                                    </ProductAmountContainer>
-                                    <ProductPrice>$ 30</ProductPrice>
-                                </PriceDetail>
-                            </Product>
+                            {cart.products.map((product) => (
+                                <Product>
+                                    <ProductDetail>
+                                        <Image src={product.img} />
+                                        <Details>
+                                            <ProductName>
+                                                <b>Product:</b> {product.title}
+                                            </ProductName>
+                                            <ProductId>
+                                                <b>ID:</b> {product._id}
+                                            </ProductId>
+                                            <ProductColor color={product.color} />
+                                            <ProductSize>
+                                                <b>Size:</b> {product.size}
+                                            </ProductSize>
+                                        </Details>
+                                    </ProductDetail>
+                                    <PriceDetail>
+                                        <ProductAmountContainer>
+                                            <Add />
+                                            <ProductAmount>{product.quantity}</ProductAmount>
+                                            <Remove />
+                                        </ProductAmountContainer>
+                                        <ProductPrice>
+                                            $ {product.price * product.quantity}
+                                        </ProductPrice>
+                                    </PriceDetail>
+                                </Product>
+                            ))}
                             <Hr />
-                            <Product>
-                                <ProductDetail>
-                                    <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                                    <Details>
-                                        <ProductName>
-                                            <b>Product:</b> HAKURA T-SHIRT
-                                        </ProductName>
-                                        <ProductId>
-                                            <b>ID:</b> 93813718293
-                                        </ProductId>
-                                        <ProductColor color="gray" />
-                                        <ProductSize>
-                                            <b>Size:</b> M
-                                        </ProductSize>
-                                    </Details>
-                                </ProductDetail>
-                                <PriceDetail>
-                                    <ProductAmountContainer>
-                                        <Add />
-                                        <ProductAmount>1</ProductAmount>
-                                        <Remove />
-                                    </ProductAmountContainer>
-                                    <ProductPrice>$ 20</ProductPrice>
-                                </PriceDetail>
-                            </Product>
                         </Info>
                         <Summary>
                             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                             <SummaryItem>
                                 <SummaryItemText>Subtotal</SummaryItemText>
-                                <SummaryItemPrice>$ 80</SummaryItemPrice>
+                                <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
                             </SummaryItem>
                             <SummaryItem>
                                 <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -119,9 +136,20 @@ const CartPage = () => {
                             </SummaryItem>
                             <SummaryItem type="total">
                                 <SummaryItemText>Total</SummaryItemText>
-                                <SummaryItemPrice>$ 80</SummaryItemPrice>
+                                <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
                             </SummaryItem>
-                            <Button>CHECKOUT NOW</Button>
+                            <StripeCheckout
+                                name="Shop Shop"
+                                image="https://logowik.com/content/uploads/images/shopping-bag6504.jpg"
+                                billingAddress
+                                shippingAddress
+                                description={`Your total is $${cart.total}`}
+                                amount={cart.total * 100}
+                                token={onToken}
+                                stripeKey={KEY}
+                            >
+                                <Button>CHECKOUT NOW</Button>
+                            </StripeCheckout>
                         </Summary>
                     </Bottom>
                 </Wrapper>

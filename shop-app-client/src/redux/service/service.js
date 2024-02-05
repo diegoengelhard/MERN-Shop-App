@@ -9,9 +9,15 @@ const API = axios.create({
 // Get product by id
 const getProduct = async (id) => API.get(`/products/${id}`);
 
+// Payment route
+const payment = async (tokenId, amount) => API.post('/payment', { tokenId, amount });
+
 // Export service functions
 const service = {
-    getProduct
+    // Product routes
+    getProduct,
+    // Payment route
+    payment
 };
 
 export default service;

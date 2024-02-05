@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Import styles
@@ -37,6 +37,17 @@ const Carousel = () => {
             setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
         }
     }
+
+    // Auto-scroll
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+        }, 3000); // Change slide every 3 seconds
+
+        // Cleanup function to clear the timer when the component unmounts
+        return () => clearInterval(timer);
+    }, [slideIndex]);
+    
     return (
         <>
             <Container>

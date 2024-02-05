@@ -11,6 +11,7 @@ import AuthPage from './pages/AuthPage/AuthPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import SingleProduct from './pages/SingleProduct/SingleProduct';
 import CartPage from './pages/CartPage/CartPage';
+import SuccessPage from './pages/SuccessPage/SuccessPage';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/products/:category" element={<ProductsPage />} />
           <Route path="/products/item/:id" element={<SingleProduct />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/success" element={<SuccessPage />} />
         </Routes>
       </main>
 
