@@ -1,11 +1,17 @@
 import { useState } from 'react'
-import './App.css'
+import { useSelector } from 'react-redux';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+// Import pages
+import LoginPage from './pages/LoginPage/LoginPage';
 
 function App() {
 
   return (
     <>
-      <h1>App</h1>
+      <Routes>
+        <Route path="/signin" element={<LoginPage />} />
+      </Routes>
     </>
   )
 }

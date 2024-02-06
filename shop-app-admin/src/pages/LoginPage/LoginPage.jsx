@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 
+// Import service 
+import service from '../../redux/service/service';
+
+// Import toastify
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
     // Set states
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     // Set dispatch
@@ -13,7 +18,15 @@ const LoginPage = () => {
     // Handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        // TODO: Dispatch login action
+
+        try {
+            const userData = { email, password };
+            dispatch(service.login(userData));
+            toast.success('Login successful');
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
     };
     return (
         <div
@@ -28,8 +41,8 @@ const LoginPage = () => {
             <input
                 style={{ padding: 10, marginBottom: 20 }}
                 type="text"
-                placeholder="username"
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="email"
+                onChange={(e) => setEmail(e.target.value)}
             />
             <input
                 style={{ padding: 10, marginBottom: 20 }}

@@ -104,4 +104,6 @@ controller.signOut = (req, res) => {
     }
 }
 
+// Verify user is admin
+
 module.exports = controller;
