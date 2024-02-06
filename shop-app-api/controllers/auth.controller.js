@@ -93,4 +93,15 @@ controller.signIn = async (req, res) => {
     }
 }
 
+// Logout user
+controller.signOut = (req, res) => {
+    try {
+        // Sends success response
+        res.status(200).json({ message: 'User signed out successful' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = controller;

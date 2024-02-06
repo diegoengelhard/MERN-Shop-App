@@ -2,6 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+// Import service
+import service from '../../redux/service/service';
+
 // Import styles
 import {
     Container,
@@ -15,6 +18,9 @@ import {
     Right,
     MenuItem
 } from './Navbar.styles';
+
+// Import toast
+import { toast } from 'react-toastify';
 
 // Import MUI components
 import { Badge } from "@material-ui/core";
@@ -30,6 +36,23 @@ const Navbar = () => {
 
     // Obtain cart quantity from the redux store
     const cartQuantity = useSelector(state => state.cart.quantity);
+
+    // Handle sign out
+    const handleSignOut = () => {
+        // Call the logout service
+        service.logout();
+
+        // Clear local storage
+        localStorage.clear();
+
+        // Show success toast
+        toast.success('Sign out successful');
+
+        // reload window after 1.5 sec
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
+    }
 
     return (
         <>
@@ -49,7 +72,7 @@ const Navbar = () => {
                         {user ? (
                             <>
                                 <MenuItem>Hello, {username}</MenuItem>
-                                <MenuItem>Sign out</MenuItem>
+                                <MenuItem onClick={handleSignOut} >Sign out</MenuItem>
                             </>
                         ) : (
                             <>

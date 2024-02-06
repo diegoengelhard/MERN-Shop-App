@@ -35,6 +35,12 @@ const register = (userData) => async (dispatch) => {
     }
 }
 
+// Logout route
+const logout = () => async (dispatch) => {
+    await API.get('/auth/signout');
+    dispatch(userSlice.actions.logout());
+}
+
 // Payment route
 const payment = async (tokenId, amount) => API.post('/payment', { tokenId, amount });
 
@@ -45,6 +51,7 @@ const service = {
     // User Auth routes
     login,
     register,
+    logout,
     // Payment route
     payment
 };
