@@ -21,6 +21,10 @@ import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 
 const Navbar = () => {
+    // Obtain user from redux
+    const user = useSelector((state) => state.user.currentUser);
+    const username = user?.user.username;
+
     // Set navigate
     const navigate = useNavigate();
 
@@ -42,8 +46,17 @@ const Navbar = () => {
                         <Logo onClick={() => navigate('/')}>SHOP APP</Logo>
                     </Center>
                     <Right>
-                        <MenuItem>REGISTER</MenuItem>
-                        <MenuItem>SIGN IN</MenuItem>
+                        {user ? (
+                            <>
+                                <MenuItem>Hello, {username}</MenuItem>
+                                <MenuItem>Sign out</MenuItem>
+                            </>
+                        ) : (
+                            <>
+                                <MenuItem onClick={() => navigate('/auth/signup')}>REGISTER</MenuItem>
+                                <MenuItem onClick={() => navigate('/auth/signin')}>SIGN IN</MenuItem>
+                            </>
+                        )}
                         <MenuItem>
                             <Badge badgeContent={cartQuantity} color="primary">
                                 <ShoppingCartOutlined onClick={() => navigate('/cart')} />

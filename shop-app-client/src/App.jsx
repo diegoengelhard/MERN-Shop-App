@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 // Import React Router DOM
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Import pages
 import Navbar from './components/Navbar/Navbar';
@@ -14,6 +15,8 @@ import CartPage from './pages/CartPage/CartPage';
 import SuccessPage from './pages/SuccessPage/SuccessPage';
 
 function App() {
+  // Obtain user from redux
+  const user = useSelector((state) => state.user.currentUser);
 
   return (
     <>
@@ -26,7 +29,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/auth/*" element={<AuthPage />} />
+          <Route path="/auth/*" element={user ? <Navigate to="/" /> : <AuthPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:category" element={<ProductsPage />} />
           <Route path="/products/item/:id" element={<SingleProduct />} />

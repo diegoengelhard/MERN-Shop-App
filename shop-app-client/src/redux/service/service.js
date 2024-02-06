@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Import userSlice
-import userSlice from '../features/userSlice';
+import { userSlice } from '../features/userSlice';
 
 // Define API URL
 const API = axios.create({
@@ -14,9 +14,10 @@ const getProduct = async (id) => API.get(`/products/${id}`);
 
 // User Auth routes
 // Login route
-const login = async (dispatch, user) => {
+const login = (userData) => async (dispatch) => {
+    dispatch(userSlice.actions.loginStart());
     try {
-        const res = await API.post('/auth/login', user);
+        const res = await API.post('/auth/signin', userData);
         dispatch(userSlice.actions.loginSuccess(res.data));
     } catch (err) {
         dispatch(userSlice.actions.loginFailure());
@@ -24,9 +25,10 @@ const login = async (dispatch, user) => {
 }
 
 // Register route
-const register = async (dispatch, user) => {
+const register = (userData) => async (dispatch) => {
+    dispatch(userSlice.actions.registerStart());
     try {
-        const res = await API.post('/auth/register', user);
+        const res = await API.post('/auth/signup', userData);
         dispatch(userSlice.actions.registerSuccess(res.data));
     } catch (err) {
         dispatch(userSlice.actions.registerFailure());

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 
 // Import Redux actions
 import { addProduct } from '../../redux/features/cartSlice';
@@ -34,6 +34,12 @@ import {
 import { Add, Remove } from "@material-ui/icons";
 
 const SingleProduct = () => {
+    // Obtain user from redux
+    const user = useSelector((state) => state.user.currentUser);
+
+    // Set navigate
+    const navigate = useNavigate();
+
     // Set location from the browser route
     const location = useLocation();
 
@@ -119,7 +125,11 @@ const SingleProduct = () => {
                                 <Add onClick={() => handleQuantity("inc")} />
                             </AmountContainer>
                             {/* ADD PRODUCT TO CART */}
-                            <Button onClick={handleAddToCart} >ADD TO CART</Button>
+                            {user ? (
+                                <Button onClick={handleAddToCart}>ADD TO CART</Button>
+                            ) : (
+                                <Button onClick={() => navigate('/auth/signin')}>ACCESS TO SHOP</Button>
+                            )}
                         </AddContainer>
                     </InfoContainer>
                 </Wrapper>

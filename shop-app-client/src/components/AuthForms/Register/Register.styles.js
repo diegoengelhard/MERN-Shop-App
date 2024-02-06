@@ -45,6 +45,13 @@ export const Agreement = styled.span`
   margin: 20px 0px;
 `;
 
+export const Link = styled.a`
+  margin: 5px 0px;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
 export const Button = styled.button`
   width: 40%;
   border: none;
