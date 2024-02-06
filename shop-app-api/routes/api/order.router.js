@@ -10,6 +10,9 @@ const {authenticate, authorize} = require("../../middlewares/auth.middleware");
 // GET Get all orders (only admin)
 router.get('/find', authenticate, authorize, controller.getAll);
 
+// GET Get latest 5 orders (only admin)
+router.get('/latest', authenticate, authorize, controller.getLatest);
+
 // GET income stats
 router.get('/income', authenticate, authorize, controller.getIncome);
 

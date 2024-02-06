@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 // Import service 
 import service from '../../redux/service/service';
@@ -15,6 +16,9 @@ const LoginPage = () => {
     // Set dispatch
     const dispatch = useDispatch();
 
+    // Set navigate
+    const navigate = useNavigate();
+
     // Handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,6 +27,9 @@ const LoginPage = () => {
             const userData = { email, password };
             dispatch(service.login(userData));
             toast.success('Login successful');
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
         } catch (error) {
             console.log(error);
             toast.error(error.message);

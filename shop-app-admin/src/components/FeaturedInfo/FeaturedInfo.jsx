@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+// Import service
+import service from '../../redux/service/service';
+
 // Import MUI icons
 import { ArrowDownward, ArrowUpward } from '@material-ui/icons';
 
@@ -12,7 +15,18 @@ const FeaturedInfo = () => {
     const [perc, setPerc] = useState(0);
 
     // Use effect to fetch income
-    // TODO: Fetch income from database
+    useEffect(() => {
+        const getIncome = async () => {
+            try {
+                const response = await service.getIncome();
+                setIncome(response);
+                setPerc((response[1].total * 100) / response[0].total - 100);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getIncome();
+    }, []);
 
     return (
         <>

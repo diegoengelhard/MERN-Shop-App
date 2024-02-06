@@ -4,14 +4,36 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Import pages
 import LoginPage from './pages/LoginPage/LoginPage';
+import HomePage from './pages/HomePage/HomePage';
+
+// Import components
+import Sidebar from './components/Sidebar/Sidebar';
+import Topbar from './components/Topbar/Topbar';
+
+// Import styles
+import './App.css'
 
 function App() {
+  const admin = useSelector((state) => state.user.currentUser.user.isAdmin);
 
   return (
     <>
-      <Routes>
-        <Route path="/signin" element={<LoginPage />} />
-      </Routes>
+      {admin && <Topbar />}
+      {admin ? (
+        <div className="container">
+          <Sidebar />
+          <Routes>
+            <Route path="/signin" element={<LoginPage />} />
+            <Route path="/" element={<HomePage />} />
+            {/* Add more routes as needed */}
+          </Routes>
+        </div>
+      ) : (
+        <Routes>
+          <Route path="/signin" element={<LoginPage />} />
+          <Route path="/" element={<Navigate to="/signin" />} />
+        </Routes>
+      )}
     </>
   )
 }

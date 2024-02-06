@@ -47,10 +47,66 @@ const login = (userData) => async (dispatch) => {
     }
 }
 
+// Logout route
+const logout = () => async (dispatch) => {
+    await API.get('/auth/signout');
+    dispatch(userSlice.actions.logout());
+}
+
+
+// User routes
+// Get latest 5 users
+const getLatestUsers = async () => {
+    try {
+        const res = await API.get('/user/latest');
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+// Get user stats
+const getUserStats = async () => {
+    try {
+        const res = await API.get('/user/stats');
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+// Order Routes
+// Get latest orders
+const getOrders = async () => {
+    try {
+        const res = await API.get('/order/latest');
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+// Get Income
+const getIncome = async () => {
+    try {
+        const res = await API.get('/order/income');
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
+
 // Export service functions
 const service = {
     // User Auth routes
     login,
+    logout,
+    // User routes
+    getLatestUsers,
+    getUserStats,
+    // Order routes
+    getOrders,
+    getIncome
 };
 
 export default service;

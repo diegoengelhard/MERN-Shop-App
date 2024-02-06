@@ -3,6 +3,16 @@ const User = require("../models/User.model");
 
 const controller = {};
 
+// Get Latest 5 Users
+controller.getLatestUsers = async (req, res) => {
+    try {
+        const users = await User.find().sort({ _id: -1 }).limit(5);
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 // Get user stats
 controller.getUserStats = async (req, res) => {
     try {

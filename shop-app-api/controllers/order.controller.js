@@ -67,6 +67,19 @@ controller.getAll = async (req, res) => {
     }
 }
 
+// Get latest 5 orders (only admin)
+controller.getLatest = async (req, res) => {
+    try {
+        // Obtain latest 5 orders
+        const orders = await Order.find().sort({ _id: -1 }).limit(5);
+
+        // Send response
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 // Update order (only admin)
 controller.update = async (req, res) => {
     try {
