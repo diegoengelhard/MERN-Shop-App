@@ -87,6 +87,17 @@ const getProducts = () => async (dispatch) => {
     }
 }
 
+// Delete product
+const deleteProduct = (id) => async (dispatch) => {
+    dispatch(productSlice.actions.deleteProductStart());
+    try {
+        await API.delete(`/products/delete/${id}`);
+        dispatch(productSlice.actions.deleteProductSuccess(id));
+    } catch (err) {
+        dispatch(productSlice.actions.deleteProductFailure());
+    }
+}
+
 // Order Routes
 // Get latest orders
 const getOrders = async () => {
@@ -118,6 +129,7 @@ const service = {
     getUserStats,
     // Product routes
     getProducts,
+    deleteProduct,
     // Order routes
     getOrders,
     getIncome

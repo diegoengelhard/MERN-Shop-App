@@ -12,6 +12,9 @@ import './ProductsPage.css'
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 
+// Import toast
+import { toast } from 'react-toastify';
+
 const ProductsPage = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.product.products);
@@ -21,7 +24,12 @@ const ProductsPage = () => {
     }, [dispatch]);
 
     const handleDelete = (id) => {
-        deleteProduct(id, dispatch);
+        // deleteProduct(id, dispatch);
+        dispatch(service.deleteProduct(id));
+        toast.success('Product has been deleted!');
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     };
 
     const columns = [
