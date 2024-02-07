@@ -91,10 +91,19 @@ const getProducts = () => async (dispatch) => {
 const findProductById = async (id) => {
     try {
         const res = await API.get(`/products/${id}`);
-        console.log(res.data);
         return res.data;
     } catch (err) {
         return err;
+    }
+}
+
+// Create product
+const createProduct = async (productData) => {
+    try {
+        const res = await API.post('/products/create', productData);
+        return res.data;
+    } catch (err) {
+        dispatch(productSlice.actions.addProductFailure());
     }
 }
 
@@ -162,6 +171,7 @@ const service = {
     // Product routes
     getProducts,
     findProductById,
+    createProduct,
     updateProduct,
     deleteProduct,
     // Order routes

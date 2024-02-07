@@ -5,14 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 // Import service
 import service from '../../../redux/service/service';
 
-// Import components
-import Chart from '../../../components/Chart/Chart';
-
 // Import styles
 import './SingleProductPage.css'
-
-// Import MUI icons
-import { Publish } from "@material-ui/icons";
 
 // Import toast
 import { toast } from 'react-toastify';
@@ -41,25 +35,6 @@ const SingleProductPage = () => {
     // Set dispatch
     const dispatch = useDispatch();
 
-    // Set months array
-    const MONTHS = useMemo(
-        () => [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Agu",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
-        []
-    );
-
     // Handle Update product
     const handleUpdate = async (e) => {
         e.preventDefault();
@@ -75,21 +50,19 @@ const SingleProductPage = () => {
         try {
             dispatch(service.updateProduct(productId, newProduct));
             toast.success('Product has been updated!');
-            // setTimeout(() => {
-            //     window.location.reload();
-            // }, 1000);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         } catch (error) {
             console.log(error);
         }
     }
 
-    // useEffect to set product stats
-
     return (
         <div className="product">
             <div className="productTitleContainer">
                 <h1 className="productTitle">Product</h1>
-                <Link to="/newproduct">
+                <Link to="/product/createProduct">
                     <button className="productAddButton">Create</button>
                 </Link>
             </div>
@@ -104,12 +77,8 @@ const SingleProductPage = () => {
                     </div>
                     <div className="productInfoBottom">
                         <div className="productInfoItem">
-                            <span className="productInfoKey">id:</span>
+                            <span className="productInfoKey">id: </span>
                             <span className="productInfoValue">{product?._id}</span>
-                        </div>
-                        <div className="productInfoItem">
-                            <span className="productInfoKey">sales:</span>
-                            <span className="productInfoValue">5123</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">in stock:</span>
@@ -139,7 +108,7 @@ const SingleProductPage = () => {
                         <input
                             style={{ padding: 10, marginBottom: 20 }}
                             placeholder={product?.price}
-                            type='text'
+                            type='number'
                             onChange={(e) => setPPrice(e.target.value)}
                         />
                         <label>In Stock</label>

@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import HomePage from './pages/HomePage/HomePage';
 import ProductsPage from './pages/Products/ProductsPage/ProductsPage';
 import SingleProduct from './pages/Products/SingleProductPage/SingleProductPage';
+import CreateProductPage from './pages/CreateProductPage/CreateProductPage';
 
 // Import components
 import Sidebar from './components/Sidebar/Sidebar';
@@ -29,6 +30,7 @@ function App() {
             <Route path="/signin" element={<LoginPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/product/:productId" element={<SingleProduct />} />
+            <Route path="/product/createProduct" element={<CreateProductPage />} />
           </Routes>
         </div>
       ) : (
