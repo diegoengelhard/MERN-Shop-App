@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Import pages
 import LoginPage from './pages/LoginPage/LoginPage';
 import HomePage from './pages/HomePage/HomePage';
+import ProductsPage from './pages/Products/ProductsPage/ProductsPage';
 
 // Import components
 import Sidebar from './components/Sidebar/Sidebar';
@@ -23,9 +24,9 @@ function App() {
         <div className="container">
           <Sidebar />
           <Routes>
-            <Route path="/signin" element={<LoginPage />} />
             <Route path="/" element={<HomePage />} />
-            {/* Add more routes as needed */}
+            <Route path="/signin" element={<LoginPage />} />
+            <Route path="/products" element={<ProductsPage />} />
           </Routes>
         </div>
       ) : (

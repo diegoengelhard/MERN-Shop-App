@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+// Import service
+import service from '../../../redux/service/service';
+
 // Import styles
 import './ProductsPage.css'
 
@@ -10,19 +13,17 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 
 const ProductsPage = () => {
-    // Set dispatch
     const dispatch = useDispatch();
+    const products = useSelector((state) => state.product.products);
 
-    // Obtain products from redux store
-    // TODO: Get products from redux store
+    useEffect(() => {
+        dispatch(service.getProducts());
+    }, [dispatch]);
 
-    // Use effect to fetch products
-    // TODO: Fetch products from backend
+    const handleDelete = (id) => {
+        deleteProduct(id, dispatch);
+    };
 
-    // Handle delete product
-    const handleDelete = (id) => { }
-
-    // Set columns for data grid
     const columns = [
         { field: "_id", headerName: "ID", width: 220 },
         {
@@ -38,12 +39,8 @@ const ProductsPage = () => {
                 );
             },
         },
-        { field: "inStock", headerName: "Stock", width: 200 },
-        {
-            field: "price",
-            headerName: "Price",
-            width: 160,
-        },
+        { field: "description", headerName: "Description", width: 300 },
+        { field: "price", headerName: "Price", width: 160 },
         {
             field: "action",
             headerName: "Action",
@@ -63,12 +60,21 @@ const ProductsPage = () => {
             },
         },
     ];
+
     return (
         <div className="productList">
-            {/* TODO: DATA GRID */}
-            <h2>Data Grid here</h2>
+            <DataGrid
+                rows={products}
+                disableSelectionOnClick
+                columns={columns}
+                getRowId={(row) => row._id}
+                pageSize={8}
+                rowsPerPageOptions={[8, 10, 25, 50, 100]}
+                checkboxSelection
+                pagination
+            />
         </div>
-    )
+    );
 }
 
 export default ProductsPage

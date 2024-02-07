@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-// Define UserSlice
+// Define slices
 import { userSlice } from '../features/userSlice';
+import { productSlice } from '../features/productSlice';
 
 // Define API URL
 const API = axios.create({
@@ -75,6 +76,17 @@ const getUserStats = async () => {
     }
 }
 
+// Product routes
+// Get all products
+const getProducts = () => async (dispatch) => {
+    try {
+        const res = await API.get('/products');
+        dispatch(productSlice.actions.getProductSuccess(res.data));
+    } catch (err) {
+        return err;
+    }
+}
+
 // Order Routes
 // Get latest orders
 const getOrders = async () => {
@@ -104,6 +116,8 @@ const service = {
     // User routes
     getLatestUsers,
     getUserStats,
+    // Product routes
+    getProducts,
     // Order routes
     getOrders,
     getIncome
