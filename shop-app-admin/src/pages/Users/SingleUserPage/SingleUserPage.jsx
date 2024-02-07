@@ -1,5 +1,9 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+// Import service
+import service from '../../../redux/service/service';
 
 // Import styles
 import './SingleUserPage.css'
@@ -13,51 +17,84 @@ import {
     PhoneAndroid,
     Publish,
 } from "@material-ui/icons";
+import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
+
+// Import toast
+import { toast } from 'react-toastify';
 
 const SingleUserPage = () => {
+    // Set states
+    const [inputs, setInputs] = useState({});
+
+    // Set location from browser url
+    const location = useLocation();
+    const userId = location.pathname.split("/")[2]; // Get product id from url
+
+    // Obtain user from redux store
+    const user = useSelector((state) => state.users.products.find((user) => user._id === userId));
+
+    // Handle Input change
+    const handleChange = (e) => {
+        setInputs((prev) => {
+            return { ...prev, [e.target.name]: e.target.value };
+        });
+    };
+
+    // Handle submit
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const userData = {
+            username: inputs.username || user.username,
+            firstname: inputs.firstname || user.firstname,
+            lastname: inputs.lastname || user.lastname,
+            email: inputs.email || user.email,
+            isAdmin: inputs.isAdmin || user.isAdmin
+        }
+
+        console.log(userData);
+
+        try {
+            service.updateUser(userId, userData);
+            toast.success('User has been updated!');
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className="user">
             <div className="userTitleContainer">
                 <h1 className="userTitle">Edit User</h1>
-                <Link to="/newUser">
-                    <button className="userAddButton">Create</button>
-                </Link>
             </div>
             <div className="userContainer">
                 <div className="userShow">
                     <div className="userShowTop">
                         <img
-                            src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                            src="https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"
                             alt=""
                             className="userShowImg"
                         />
                         <div className="userShowTopTitle">
-                            <span className="userShowUsername">Anna Becker</span>
-                            <span className="userShowUserTitle">Software Engineer</span>
+                            <span className="userShowUsername">{user.firstname} {user.lastname}</span>
                         </div>
                     </div>
                     <div className="userShowBottom">
                         <span className="userShowTitle">Account Details</span>
                         <div className="userShowInfo">
                             <PermIdentity className="userShowIcon" />
-                            <span className="userShowInfoTitle">annabeck99</span>
-                        </div>
-                        <div className="userShowInfo">
-                            <CalendarToday className="userShowIcon" />
-                            <span className="userShowInfoTitle">10.12.1999</span>
-                        </div>
-                        <span className="userShowTitle">Contact Details</span>
-                        <div className="userShowInfo">
-                            <PhoneAndroid className="userShowIcon" />
-                            <span className="userShowInfoTitle">+1 123 456 67</span>
+                            <span className="userShowInfoTitle">{user.username}</span>
                         </div>
                         <div className="userShowInfo">
                             <MailOutline className="userShowIcon" />
-                            <span className="userShowInfoTitle">annabeck99@gmail.com</span>
+                            <span className="userShowInfoTitle">{user.email}</span>
                         </div>
                         <div className="userShowInfo">
-                            <LocationSearching className="userShowIcon" />
-                            <span className="userShowInfoTitle">New York | USA</span>
+                            <SupervisorAccountOutlinedIcon />
+                            <span className="userShowInfoTitle">Admin status: {user.isAdmin ? 'yes' : 'no'} </span>
                         </div>
                     </div>
                 </div>
@@ -68,57 +105,53 @@ const SingleUserPage = () => {
                             <div className="userUpdateItem">
                                 <label>Username</label>
                                 <input
+                                    name="username"
                                     type="text"
-                                    placeholder="annabeck99"
                                     className="userUpdateInput"
+                                    defaultValue={user.username}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="userUpdateItem">
-                                <label>Full Name</label>
+                                <label>Firstname</label>
                                 <input
+                                    name="firstname"
                                     type="text"
-                                    placeholder="Anna Becker"
                                     className="userUpdateInput"
+                                    defaultValue={user.firstname}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="userUpdateItem">
+                                <label>Lastname</label>
+                                <input
+                                    name="lastname"
+                                    type="text"
+                                    className="userUpdateInput"
+                                    defaultValue={user.lastname}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="userUpdateItem">
                                 <label>Email</label>
                                 <input
+                                    name="email"
                                     type="text"
-                                    placeholder="annabeck99@gmail.com"
                                     className="userUpdateInput"
+                                    defaultValue={user.email}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="userUpdateItem">
-                                <label>Phone</label>
-                                <input
-                                    type="text"
-                                    placeholder="+1 123 456 67"
-                                    className="userUpdateInput"
-                                />
+                                <label>Admin</label>
+                                <select name="isAdmin" onChange={handleChange}>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
                             </div>
                             <div className="userUpdateItem">
-                                <label>Address</label>
-                                <input
-                                    type="text"
-                                    placeholder="New York | USA"
-                                    className="userUpdateInput"
-                                />
+                                <button className="userUpdateButton" onClick={handleSubmit}>Update</button>
                             </div>
-                        </div>
-                        <div className="userUpdateRight">
-                            <div className="userUpdateUpload">
-                                <img
-                                    className="userUpdateImg"
-                                    src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                                    alt=""
-                                />
-                                <label htmlFor="file">
-                                    <Publish className="userUpdateIcon" />
-                                </label>
-                                <input type="file" id="file" style={{ display: "none" }} />
-                            </div>
-                            <button className="userUpdateButton">Update</button>
                         </div>
                     </form>
                 </div>

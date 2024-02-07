@@ -13,18 +13,12 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 
 const UsersPage = () => {
-    const [users, setUsers] = useState([]);
+    const dispatch = useDispatch();
+    const users = useSelector((state) => state.users.products);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            const fetchedUsers = await service.getUsers();
-            setUsers(fetchedUsers);
-        }
-
-        fetchUsers();
-    }, []);
-
-    console.log(users);
+        dispatch(service.getUsers());
+    }, [dispatch]);
 
     // Handle delete user
     const handleDelete = (id) => { }
@@ -59,7 +53,7 @@ const UsersPage = () => {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/user/" + params.row.id}>
+                        <Link to={"/users/" + params.row._id}>
                             <button className="userListEdit">Edit</button>
                         </Link>
                         <DeleteOutline

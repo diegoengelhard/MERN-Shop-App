@@ -16,4 +16,10 @@ router.get('/all', authenticate, authorize, controller.getUsers);
 // GET get latest 5 users (only admin)
 router.get('/latest', authenticate, authorize, controller.getLatestUsers);
 
+// GET get user by id
+router.get('/:id', authenticate, authorize, controller.getUserById);
+
+// PUT Update user
+router.put('/update/:id', authenticate, authorize, controller.updateUser);
+
 module.exports = router;

@@ -41,6 +41,7 @@ const CreateProductPage = () => {
       console.log(error);
     }
   };
+  
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Product</h1>

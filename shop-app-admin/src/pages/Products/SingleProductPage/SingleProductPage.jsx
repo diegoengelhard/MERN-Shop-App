@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,7 +16,7 @@ const SingleProductPage = () => {
     const location = useLocation();
     const productId = location.pathname.split("/")[2]; // Get product id from url
 
-    // Obtain product
+    // Set product state
     const [product, setProduct] = useState(null);
     useEffect(() => {
         // Obtain product from redux store

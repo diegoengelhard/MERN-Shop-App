@@ -4,6 +4,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 // Import reducers
 import userReducer from './features/userSlice';
 import productReducer from './features/productSlice';
+import usersReducer from './features/usersSlice';
 
 // Import redux-persist
 import {
@@ -29,6 +30,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userReducer,
     product: productReducer,
+    users: usersReducer,
 });
 
 // Persisted root reducer for local storage -> keep user state after refresh

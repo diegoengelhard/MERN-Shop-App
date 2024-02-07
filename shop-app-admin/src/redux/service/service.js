@@ -3,6 +3,7 @@ import axios from 'axios';
 // Define slices
 import { userSlice } from '../features/userSlice';
 import { productSlice } from '../features/productSlice';
+import { usersSlice } from '../features/usersSlice';
 
 // Define API URL
 const API = axios.create({
@@ -57,12 +58,22 @@ const logout = () => async (dispatch) => {
 
 // User routes
 // Get all users
-const getUsers = async () => {
+const getUsers = () => async (dispatch) => {
     try {
         const res = await API.get('/user/all');
-        return res.data;
+        dispatch(usersSlice.actions.getUsersSuccess(res.data));
     } catch (err) {
         return
+    }
+}
+
+// Get user by id
+const getUserById = async (id) => {
+    try {
+        const res = await API.get(`/user/${id}`);
+        return res.data;
+    } catch (err) {
+        return err;
     }
 }
 
@@ -80,6 +91,16 @@ const getLatestUsers = async () => {
 const getUserStats = async () => {
     try {
         const res = await API.get('/user/stats');
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+// Update User
+const updateUser = async (id, userData) => {
+    try {
+        const res = await API.put(`/user/update/${id}`, userData);
         return res.data;
     } catch (err) {
         return err;
@@ -177,7 +198,9 @@ const service = {
     logout,
     // User routes
     getUsers,
+    getUserById,
     getLatestUsers,
+    updateUser,
     getUserStats,
     // Product routes
     getProducts,
