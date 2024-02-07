@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+// Import service
+import service from '../../../redux/service/service';
 
 // Import styles
 import './UsersPage.css'
@@ -9,15 +13,25 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 
 const UsersPage = () => {
-    // Set user data state
-    const [data, setData] = useState([]);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const fetchedUsers = await service.getUsers();
+            setUsers(fetchedUsers);
+        }
+
+        fetchUsers();
+    }, []);
+
+    console.log(users);
 
     // Handle delete user
     const handleDelete = (id) => { }
 
     // Set columns for grid
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
+        { field: "_id", headerName: "ID", width: 220 },
         {
             field: "user",
             headerName: "User",
@@ -25,22 +39,18 @@ const UsersPage = () => {
             renderCell: (params) => {
                 return (
                     <div className="userListUser">
-                        <img className="userListImg" src={params.row.avatar} alt="" />
+                        <img className="userListImg" src="https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif" alt="" />
                         {params.row.username}
                     </div>
                 );
             },
         },
         { field: "email", headerName: "Email", width: 200 },
-        {
-            field: "status",
-            headerName: "Status",
-            width: 120,
-        },
-        {
-            field: "transaction",
-            headerName: "Transaction Volume",
-            width: 160,
+        { 
+            field: "isAdmin", 
+            headerName: "Admin", 
+            width: 150,
+            valueGetter: (params) => params.row.isAdmin ? 'Yes' : 'No'
         },
         {
             field: "action",
@@ -59,15 +69,22 @@ const UsersPage = () => {
                     </>
                 );
             },
-        },
+        }
     ];
-
-
 
     return (
          <div className="userList">
             {/* TODO: Data grid */}
-            <h2>User data grid here</h2>
+            <DataGrid
+                rows={users}
+                disableSelectionOnClick
+                columns={columns}
+                getRowId={(row) => row._id}
+                pageSize={8}
+                rowsPerPageOptions={[8, 10, 25, 50, 100]}
+                checkboxSelection
+                pagination
+            />
          </div>
     )
 }

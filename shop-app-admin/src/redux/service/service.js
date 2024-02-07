@@ -56,6 +56,16 @@ const logout = () => async (dispatch) => {
 
 
 // User routes
+// Get all users
+const getUsers = async () => {
+    try {
+        const res = await API.get('/user/all');
+        return res.data;
+    } catch (err) {
+        return
+    }
+}
+
 // Get latest 5 users
 const getLatestUsers = async () => {
     try {
@@ -166,6 +176,7 @@ const service = {
     login,
     logout,
     // User routes
+    getUsers,
     getLatestUsers,
     getUserStats,
     // Product routes

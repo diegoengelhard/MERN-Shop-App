@@ -24,7 +24,6 @@ const ProductsPage = () => {
     }, [dispatch]);
 
     const handleDelete = (id) => {
-        // deleteProduct(id, dispatch);
         dispatch(service.deleteProduct(id));
         toast.success('Product has been deleted!');
         setTimeout(() => {
