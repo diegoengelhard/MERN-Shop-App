@@ -87,6 +87,28 @@ const getProducts = () => async (dispatch) => {
     }
 }
 
+// Find product by id
+const findProductById = async (id) => {
+    try {
+        const res = await API.get(`/products/${id}`);
+        console.log(res.data);
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+// Update product
+const updateProduct = (id, productData) => async (dispatch) => {
+    dispatch(productSlice.actions.updateProductStart());
+    try {
+        const res = await API.put(`/products/update/${id}`, productData);
+        return res.data;
+    } catch (err) {
+        dispatch(productSlice.actions.updateProductFailure());
+    }
+}
+
 // Delete product
 const deleteProduct = (id) => async (dispatch) => {
     dispatch(productSlice.actions.deleteProductStart());
@@ -119,6 +141,16 @@ const getIncome = async () => {
     }
 }
 
+// Get Income by Product
+const getIncomeByProduct = async (productId) => {
+    try {
+        const res = await axios.get(`orders/income/?productId=${productId}`);
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
+
 // Export service functions
 const service = {
     // User Auth routes
@@ -129,10 +161,13 @@ const service = {
     getUserStats,
     // Product routes
     getProducts,
+    findProductById,
+    updateProduct,
     deleteProduct,
     // Order routes
     getOrders,
-    getIncome
+    getIncome,
+    getIncomeByProduct,
 };
 
 export default service;

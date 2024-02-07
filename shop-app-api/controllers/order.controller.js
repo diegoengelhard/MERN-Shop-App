@@ -128,13 +128,22 @@ controller.delete = async (req, res) => {
 }
 
 controller.getIncome = async (req, res) => {
+    // Obtain product id from query
+    const productId = req.query.productId;
     try {
         const date = new Date();
         const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
         const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
 
         const income = await Order.aggregate([
-            { $match: { createdAt: { $gte: previousMonth } } },
+            { 
+                $match: { 
+                    createdAt: { $gte: previousMonth },
+                    ...(productId && {
+                        products: { $elemMatch: { productId } },
+                    }),
+                } 
+            },
             {
                 $project: {
                     month: { $month: "$createdAt" },
