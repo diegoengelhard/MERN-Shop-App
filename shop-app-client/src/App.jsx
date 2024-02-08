@@ -13,6 +13,7 @@ import ProductsPage from './pages/ProductsPage/ProductsPage';
 import SingleProduct from './pages/SingleProduct/SingleProduct';
 import CartPage from './pages/CartPage/CartPage';
 import SuccessPage from './pages/SuccessPage/SuccessPage';
+import OrdersPage from './pages/OrdersPage/OrdersPage';
 
 function App() {
   // Obtain user from redux
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/auth/*" element={user ? <Navigate to="/" /> : <AuthPage />} />
+          <Route path="/myOrders" element={<OrdersPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:category" element={<ProductsPage />} />
           <Route path="/products/item/:id" element={<SingleProduct />} />

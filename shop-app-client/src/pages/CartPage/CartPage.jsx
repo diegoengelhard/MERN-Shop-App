@@ -50,6 +50,10 @@ const CartPage = () => {
     // Set cart from redux store
     const cart = useSelector(state => state.cart);
 
+    // Obtain userId from redux
+    const user = useSelector((state) => state.user.currentUser);
+    const userId = user?.user._id;
+
     // Stripe payment token state
     const [stripeToken, setStripeToken] = React.useState(null);
 
@@ -73,6 +77,32 @@ const CartPage = () => {
         }
     }, []);
 
+    // Handle Create Order
+    const handleCreateOrder = () => {
+        try {
+            // Create an array of products with their id and quantity
+            const products = cart.products.map(product => ({
+                title: product.title,
+                productId: product._id,
+                quantity: product.quantity
+            }));
+
+            // Create the order data
+            const orderData = {
+                userId: userId, // 
+                products: products,
+                amount: cart.total,
+                address: "885 Woodside Rd" // Replace with the actual address
+            };
+
+            // Call the createOrder function from service.js
+            service.createOrder(orderData);
+            console.log('Order has been created!');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <Container>
@@ -81,10 +111,9 @@ const CartPage = () => {
                     <Top>
                         <TopButton onClick={() => navigate('/products')} >CONTINUE SHOPPING</TopButton>
                         <TopTexts>
-                            <TopText>Shopping Bag(2)</TopText>
-                            <TopText>Your Wishlist (0)</TopText>
+                            <TopText>Shopping Bag ({cart.products.length})</TopText>
                         </TopTexts>
-                        <TopButton type="filled">CHECKOUT NOW</TopButton>
+                        <TopButton type="filled" onClick={handleCreateOrder}>CHECKOUT NOW</TopButton>
                     </Top>
                     <Bottom>
                         {/* CART ADDED PRODUCTS */}

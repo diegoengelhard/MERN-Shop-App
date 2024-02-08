@@ -71,7 +71,8 @@ const Navbar = () => {
                     <Right>
                         {user ? (
                             <>
-                                <MenuItem>Hello, {username}</MenuItem>
+                                <MenuItem>Hello, {username}!</MenuItem>
+                                <MenuItem onClick={() => navigate('/myOrders')}>My Orders</MenuItem>
                                 <MenuItem onClick={handleSignOut} >Sign out</MenuItem>
                             </>
                         ) : (
