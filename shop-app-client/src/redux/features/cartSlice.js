@@ -16,11 +16,17 @@ const cartSlice = createSlice({
       state.products.push(action.payload);
       state.total += action.payload.price * action.payload.quantity;
     },
+    // Empty the cart
+    emptyCart: (state) => {
+      state.products = [];
+      state.quantity = 0;
+      state.total = 0;
+    },
   },
 });
 
 // Export the actions
-export const { addProduct } = cartSlice.actions;
+export const { addProduct, emptyCart } = cartSlice.actions;
 
 // Export the reducer to be combined with other reducers
 export default cartSlice.reducer;

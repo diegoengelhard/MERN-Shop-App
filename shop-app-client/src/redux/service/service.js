@@ -84,7 +84,6 @@ const createOrder = async (orderData) => {
 const getOrdersByUserId = async (userId) => {
     try {
         const res = await API.get(`/order/find/${userId}`);
-        console.log(res.data);
         return res.data;
     } catch (err) {
         return err;

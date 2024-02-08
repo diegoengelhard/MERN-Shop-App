@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import redux actions
 import service from '../../redux/service/service.js'
+import { emptyCart } from '../../redux/features/cartSlice.js';
 
 // Import StripeCheckout
 import StripeCheckout from 'react-stripe-checkout';
@@ -43,8 +44,11 @@ import {
 // Import MUI icons
 import { Add, Remove } from "@material-ui/icons";
 
+// Import toast
+import { toast } from 'react-toastify';
+
 // Import Stripe Publishable Key
-const KEY = import.meta.env.STRIPE_PUBLISHABLE_KEY;
+const KEY = 'pk_test_51OfS5lG0Sd82o5Ztx3kx1uaix7PGDf824fsR4oAeptRzAnUS2TJ4QwO4ICSbgBsr5lMcuA4XFMwrUyKBBRLPFDM800RKMr5uOl';
 
 const CartPage = () => {
     // Set cart from redux store
@@ -60,22 +64,47 @@ const CartPage = () => {
     // Set navigate
     const navigate = useNavigate();
 
+    // Set dispatch
+    const dispatch = useDispatch();
+
     // Set stripe token for payment
     const onToken = (token) => {
         setStripeToken(token);
+        // Navigate to the /products page
+        navigate('/success');
     }
 
     // useEffect to navigate to success page after payment
     useEffect(() => {
         const paymentRequest = async () => {
             try {
-                // Payment request to the server
+                if (stripeToken) {
+                    const response = await service.createPayment({
+                        userId: userId,
+                        token: stripeToken
+                    });
 
+                    if (response.status === 200) {
+                        navigate('/success');
+                    }
+                }
             } catch (error) {
                 console.log(error);
             }
         }
+        stripeToken && paymentRequest();
     }, []);
+
+    // Handle Empty Cart
+    const handleEmptyCart = () => {
+        try {
+            // Call the emptyCart function from cartSlice.js
+            dispatch(emptyCart());
+            toast.success('Cart has been emptied!');
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     // Handle Create Order
     const handleCreateOrder = () => {
@@ -92,12 +121,11 @@ const CartPage = () => {
                 userId: userId, // 
                 products: products,
                 amount: cart.total,
-                address: "885 Woodside Rd" // Replace with the actual address
+                address: "885 Woodside Rd"
             };
 
             // Call the createOrder function from service.js
             service.createOrder(orderData);
-            console.log('Order has been created!');
         } catch (error) {
             console.log(error);
         }
@@ -113,7 +141,7 @@ const CartPage = () => {
                         <TopTexts>
                             <TopText>Shopping Bag ({cart.products.length})</TopText>
                         </TopTexts>
-                        <TopButton type="filled" onClick={handleCreateOrder}>CHECKOUT NOW</TopButton>
+                        <TopButton type="filled" onClick={handleEmptyCart}>EMPTY CAR</TopButton>
                     </Top>
                     <Bottom>
                         {/* CART ADDED PRODUCTS */}
@@ -167,18 +195,22 @@ const CartPage = () => {
                                 <SummaryItemText>Total</SummaryItemText>
                                 <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
                             </SummaryItem>
-                            <StripeCheckout
-                                name="Shop Shop"
-                                image="https://logowik.com/content/uploads/images/shopping-bag6504.jpg"
-                                billingAddress
-                                shippingAddress
-                                description={`Your total is $${cart.total}`}
-                                amount={cart.total * 100}
-                                token={onToken}
-                                stripeKey={KEY}
-                            >
-                                <Button>CHECKOUT NOW</Button>
-                            </StripeCheckout>
+                            {cart.total > 0 ? (
+                                <StripeCheckout
+                                    name="Shop Shop"
+                                    image="https://logowik.com/content/uploads/images/shopping-bag6504.jpg"
+                                    billingAddress
+                                    shippingAddress
+                                    description={`Your total is $${cart.total}`}
+                                    amount={cart.total * 100}
+                                    token={onToken}
+                                    stripeKey={KEY}
+                                >
+                                    <Button onClick={handleCreateOrder}>CHECKOUT NOW</Button>
+                                </StripeCheckout>
+                            ) : (
+                                <p>Your cart is empty.</p>
+                            )}
                         </Summary>
                     </Bottom>
                 </Wrapper>
