@@ -70,7 +70,7 @@ const CartPage = () => {
     // Set stripe token for payment
     const onToken = (token) => {
         setStripeToken(token);
-        // Navigate to the /products page
+        handleEmptyCart();
         navigate('/success');
     }
 
