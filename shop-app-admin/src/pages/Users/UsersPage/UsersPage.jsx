@@ -68,7 +68,6 @@ const UsersPage = () => {
 
     return (
          <div className="userList">
-            {/* TODO: Data grid */}
             <DataGrid
                 rows={users}
                 disableSelectionOnClick

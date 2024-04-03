@@ -1,0 +1,40 @@
+# specify the version of docker-compose
+version: "3.8"
+
+services:
+  # define the frontend service
+  web_client:
+    depends_on: 
+      - api
+    build:
+      context: ./shop-app-client
+      dockerfile: Dockerfile
+    container_name: client
+    ports:
+      - 5173:5173
+    env_file:
+      - ./shop-app-client/.env
+
+  # define the admin service
+  web_admin:
+    depends_on: 
+      - api
+    build:
+      context: ./shop-app-admin
+      dockerfile: Dockerfile
+    container_name: admin
+    ports:
+      - 5000:5000
+
+  # define the api service
+  api: 
+    build:
+      context: ./shop-app-api
+      dockerfile: Dockerfile
+    container_name: backend
+    ports: 
+      - 3500:3500
+    env_file:
+      - ./shop-app-api/.env
+    environment:
+      - MONGODB_URI=mongodb+srv://00356119:uca123@shop-app.qyxijsc.mongodb.net/
