@@ -19,7 +19,7 @@ To get started with this project, follow these steps:
 
 1. Clone the repository: 
 ```
-git clone https://github.com/diegoengelhard/NextJS-Shop-App.git
+git clone https://github.com/diegoengelhard/MERN-Shop-App.git
 ```
 
 2. For `shop-app-client` and `shop-app-api` make sure to copy the `.env.example` file to your own `.env` file.
